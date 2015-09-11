@@ -1,0 +1,149 @@
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.border.LineBorder;
+import java.io.*;
+import java.net.*;
+public class PlaneModel1 extends JPanel implements PlaneConst 
+{
+        private int direct=NORTH;
+        private int x=0;
+        private int y=0;
+        private Point h;
+        private Point b1;
+        private Point l1;
+        private Point l2;
+        private Point r2;
+        private Point r1;
+        private Point b2;
+        private Point t2;
+        private Point t1;
+        private Point t3;
+        private Cell[][] smallCell=new Cell[SMALL_H][SMALL_W];
+        public PlaneModel1()
+        {
+            super();
+            for (int i = 0; i < SMALL_W; i++)
+                for (int j = 0; j < SMALL_H; j++)
+                    smallCell[i][j] = new Cell("image/cloud.jpg");
+        }
+        public void rotate(int d)
+        {
+            direct+=d;
+            if(direct<NORTH)
+                direct+=4;
+            if(direct>EAST)
+                direct-=4;
+            //~ repaint();
+        } 
+        public int getDirect()
+        {
+            return direct;
+        }            
+        public void paintComponent(Graphics g)
+        {
+            super.paintComponent(g);
+            //~ Graphics2D g2=(Graphics2D)g;
+            setPreferredSize(new Dimension(255,255)); 
+            setMinimumSize(new Dimension(255,255)); 
+            setMaximumSize(new Dimension(255,255)); 
+            if(direct==NORTH)
+            {
+                x=0;
+                y=2;
+            }
+            if(direct==WEST)
+            {
+                x=2;
+                y=0;
+            }
+            if(direct==SOUTH)
+            {
+                x=4;
+                y=2;
+            }
+            if(direct==EAST)
+            {
+                x=2;
+                y=4;
+            }
+            if(direct==NORTH)
+            {
+                h=new Point(x,y);
+                b1=new Point(x+1,y);
+                l1=new Point(x+1,y-2);
+                l2=new Point(x+1,y-1);
+                r2=new Point(x+1,y+1);
+                r1=new Point(x+1,y+2);
+                b2=new Point(x+2,y);
+                t2=new Point(x+3,y-1);
+                t1=new Point(x+3,y);
+                t3=new Point(x+3,y+1);
+            }
+            if(direct==WEST)
+            {
+                h=new Point(x,y);
+                b1=new Point(x,y+1);
+                l1=new Point(x+2,y+1);
+                l2=new Point(x+1,y+1);
+                r2=new Point(x-1,y+1);
+                r1=new Point(x-2,y+1);
+                b2=new Point(x,y+2);
+                t2=new Point(x+1,y+3);
+                t1=new Point(x,y+3);
+                t3=new Point(x-1,y+3);
+            }
+            if(direct==SOUTH)
+            {
+                h=new Point(x,y);
+                b1=new Point(x-1,y);
+                l1=new Point(x-1,y+2);
+                l2=new Point(x-1,y+1);
+                r2=new Point(x-1,y-1);
+                r1=new Point(x-1,y-2);
+                b2=new Point(x-2,y);
+                t2=new Point(x-3,y+1);
+                t1=new Point(x-3,y);
+                t3=new Point(x-3,y-1);
+            }
+            if(direct==EAST)
+            {
+                h=new Point(x,y);
+                b1=new Point(x,y-1);
+                l1=new Point(x-2,y-1);
+                l2=new Point(x-1,y-1);
+                r2=new Point(x+1,y-1);
+                r1=new Point(x+2,y-1);
+                b2=new Point(x,y-2);
+                t2=new Point(x-1,y-3);
+                t1=new Point(x,y-3);
+                t3=new Point(x+1,y-3);
+            }
+            
+        
+            for (int i = 0; i < SMALL_W; i++)
+                for (int j = 0; j < SMALL_H; j++)
+                    remove(smallCell[i][j]);
+
+            for (int i = 0; i < SMALL_W; i++)
+                for (int j = 0; j < SMALL_H; j++)
+                    smallCell[i][j].set("image/cloud.jpg");
+
+                
+            smallCell[(int)h.getX()][(int)h.getY()].set("image/"+direct+"h.jpg");
+            smallCell[(int)b1.getX()][(int)b1.getY()].set("image/"+direct+"b1.jpg");
+            smallCell[(int)l1.getX()][(int)l1.getY()].set("image/"+direct+"l2.jpg");   
+            smallCell[(int)l2.getX()][(int)l2.getY()].set("image/"+direct+"l1.jpg");
+            smallCell[(int)r2.getX()][(int)r2.getY()].set("image/"+direct+"r1.jpg");
+            smallCell[(int)r1.getX()][(int)r1.getY()].set("image/"+direct+"r2.jpg");
+            smallCell[(int)b2.getX()][(int)b2.getY()].set("image/"+direct+"b2.jpg");
+            smallCell[(int)t2.getX()][(int)t2.getY()].set("image/"+direct+"t2.jpg");
+            smallCell[(int)t1.getX()][(int)t1.getY()].set("image/"+direct+"t1.jpg");
+            smallCell[(int)t3.getX()][(int)t3.getY()].set("image/"+direct+"t3.jpg");
+                
+            setLayout(new GridLayout(SMALL_H,SMALL_W));
+            for (int i = 0; i < SMALL_W; i++)
+                for (int j = 0; j < SMALL_H; j++)
+                    add(smallCell[i][j]);
+        }
+}
